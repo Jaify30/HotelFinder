@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { ImgHoteles } from "../types/ImgHoteles";
 import type { Hotel } from "../types/Hoteles";
+import { appsettings } from "../settings/appsettings";
 
 interface Props {
   hotel: Hotel;
@@ -22,7 +23,13 @@ export default function CardHotel({ hotel, imagenes }: Props) {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col">
       <img
-        src={imagenHotel ? imagenHotel.url : "/no-image.png"}
+        src={
+          imagenHotel
+            ? imagenHotel.url.startsWith("http")
+              ? imagenHotel.url
+              : `${appsettings.apiUrl.replace("api/", "")}${imagenHotel.url}`
+            : "/hotel-default.jpg"
+        }
         alt={nombre}
         className="w-full h-48 object-cover"
       />
