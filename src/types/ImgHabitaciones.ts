@@ -1,6 +1,6 @@
 type ImgHabitaciones = {
-    ID: number;
-    ID_Habitacion: number;
+    id: number;
+    id_Habitacion: number;
     URL: string;
 };
 export type { ImgHabitaciones };

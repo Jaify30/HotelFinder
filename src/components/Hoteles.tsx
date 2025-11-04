@@ -15,14 +15,14 @@ export default function Hoteles() {
       .then((res) => res.json())
       .then((data: any[]) => {
         const hotelesNormalizados = data.map((h) => ({
-          Id: h.id ?? h.Id,
-          Nombre: h.nombre ?? h.Nombre,
-          Descripcion: h.descripcion ?? h.Descripcion,
-          Pais: h.pais ?? h.Pais,
-          Ciudad: h.ciudad ?? h.Ciudad,
-          Estrellas: h.estrellas ?? h.Estrellas,
-          Direccion: h.direccion ?? h.Direccion,
-          Telefono: h.telefono ?? h.Telefono,
+          id: h.id ?? h.Id,
+          nombre: h.nombre ?? h.Nombre,
+          descripcion: h.descripcion ?? h.Descripcion,
+          pais: h.pais ?? h.Pais,
+          ciudad: h.ciudad ?? h.Ciudad,
+          estrellas: h.estrellas ?? h.Estrellas,
+          direccion: h.direccion ?? h.Direccion,
+          telefono: h.telefono ?? h.Telefono,
         }));
         setHoteles(hotelesNormalizados);
       })
@@ -31,7 +31,7 @@ export default function Hoteles() {
 
   // 🔸 Cargar imágenes
   useEffect(() => {
-    fetch(`${appsettings.apiUrl}ImgHotele/Lista`)
+    fetch(`${appsettings.apiUrl}ImgHoteles/Lista`)
       .then((res) => res.json())
       .then((data: any[]) => {
         const imgsNormalizadas = data.map((img) => ({
@@ -45,7 +45,7 @@ export default function Hoteles() {
   }, []);
 
   // 🔸 Filtrar los 6 más valorados por estrellas
-  const hotelesTop = [...hoteles].sort((a, b) => b.Estrellas - a.Estrellas).slice(0, 6);
+  const hotelesTop = [...hoteles].sort((a, b) => b.estrellas - a.estrellas).slice(0, 6);
 
   // 🔸 Mostrar los primeros 3 o los 6 según el estado
   const hotelesVisibles = mostrarTodos ? hotelesTop : hotelesTop.slice(0, 3);
@@ -58,10 +58,10 @@ export default function Hoteles() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {hotelesVisibles.map((hotel) => {
-          const imagenHotel = imagenes.find((img) => img.ID_Hotel === hotel.Id);
+          const imagenHotel = imagenes.find((img) => img.ID_Hotel === hotel.id);
           return (
             <CardHotel
-              key={hotel.Id}
+              key={hotel.id}
               hotel={hotel}
               imagenes={imagenHotel ? [imagenHotel] : []}
             />

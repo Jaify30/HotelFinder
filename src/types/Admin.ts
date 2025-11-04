@@ -1,8 +1,8 @@
 type Admin = {
-    ID: number;
-    Usuario: string;
-    Correo: string;
-    Contraseña: string;
-    FechaCreacion: string;
+    id: number; 
+    usuario: string;
+    correo: string;
+    contraseña: string;
+    fechaCreacion: string;
 }
 export type { Admin };

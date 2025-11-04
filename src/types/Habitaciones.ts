@@ -1,10 +1,10 @@
 type Habitaciones ={
-    ID: number;
-    Tipo: string;
-    Caracteristicas: string;
-    Precio: number;
-    MaxHuespedes: number;
-    ID_Hotel: number;
+    id: number;
+    tipo: string;
+    caracteristicas: string;
+    precio: number;
+    maxHuespedes: number;
+    idHotel: number;
 };
 export type { Habitaciones
 }

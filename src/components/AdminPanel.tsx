@@ -5,18 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { appsettings } from "../settings/appsettings";
 import Sidebar from "./SideBar";
 import { useNavigate } from "react-router-dom";
-
-interface Hotel {
-  Id: number;
-  Nombre: string;
-  Descripcion: string;
-  Direccion: string;
-  Pais: string;
-  Ciudad: string;
-  Telefono: string;
-  Estrellas: number;
-  ImagenUrl?: string;
-}
+import type { Hotel } from "../types/Hoteles";
 
 export default function AdminPanel() {
   const [hoteles, setHoteles] = useState<Hotel[]>([]);
@@ -31,7 +20,7 @@ export default function AdminPanel() {
 
   const calcularPromedioEstrellas = () => {
     if (hoteles.length === 0) return 0;
-    const totalEstrellas = hoteles.reduce((acc, hotel) => acc + (hotel.Estrellas || 0), 0);
+    const totalEstrellas = hoteles.reduce((acc, hotel) => acc + (hotel.estrellas || 0), 0);
     return (totalEstrellas / hoteles.length).toFixed(1);
   };
 
@@ -67,22 +56,22 @@ export default function AdminPanel() {
               </tr>
             </thead>
             <tbody>
-                {hoteles.map((hotel) => (
-                <tr key={hotel.Id} className="border-b hover:bg-gray-50">
-                <td className="py-3">{hotel.Nombre}</td>
-                <td className="py-3">{hotel.Pais}</td>
-                <td className="py-3">{hotel.Ciudad}</td>
-                <td className="py-3 text-center">{hotel.Estrellas}</td>
-                <td className="py-3 text-center">
+              {hoteles.map((hotel) => (
+                <tr key={hotel.id} className="border-b hover:bg-gray-50">
+                  <td className="py-3">{hotel.nombre}</td>
+                  <td className="py-3">{hotel.pais}</td>
+                  <td className="py-3">{hotel.ciudad}</td>
+                  <td className="py-3 text-center">{hotel.estrellas}</td>
+                  <td className="py-3 text-center">
                     <button
-                    onClick={() => handleAgregarHabitaciones(hotel.Id)}
-                    className="bg-orange-500 text-white px-3 py-1 rounded-md hover:bg-orange-600 flex items-center justify-center gap-1 mx-auto"
+                      onClick={() => handleAgregarHabitaciones(hotel.id)}
+                      className="bg-orange-500 text-white px-3 py-1 rounded-md hover:bg-orange-600 flex items-center justify-center gap-1 mx-auto"
                     >
-                    <FontAwesomeIcon icon={faHotel}/> Agregar habitaciones
+                      <FontAwesomeIcon icon={faHotel} /> Agregar habitaciones
                     </button>
-                </td>
+                  </td>
                 </tr>
-            ))}
+              ))}
             </tbody>
           </table>
 

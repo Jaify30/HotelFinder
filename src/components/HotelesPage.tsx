@@ -72,10 +72,10 @@ export default function HotelesPage() {
   useEffect(() => {
     let result = hoteles;
 
-    if (pais) result = result.filter((h) => h.Pais.toLowerCase().includes(pais.toLowerCase()));
-    if (ciudad) result = result.filter((h) => h.Ciudad.toLowerCase().includes(ciudad.toLowerCase()));
-    if (estrellas !== null) result = result.filter((h) => h.Estrellas === estrellas);
-    if (nombre) result = result.filter((h) => h.Nombre.toLowerCase().includes(nombre.toLowerCase()));
+    if (pais) result = result.filter((h) => h.pais.toLowerCase().includes(pais.toLowerCase()));
+    if (ciudad) result = result.filter((h) => h.ciudad.toLowerCase().includes(ciudad.toLowerCase()));
+    if (estrellas !== null) result = result.filter((h) => h.estrellas === estrellas);
+    if (nombre) result = result.filter((h) => h.nombre.toLowerCase().includes(nombre.toLowerCase()));
 
     setFiltered(result);
   }, [pais, ciudad, estrellas, nombre, hoteles]);
@@ -156,38 +156,39 @@ export default function HotelesPage() {
 
       {/* LISTADO */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {filtered.length > 0 ? (
-          filtered.map((hotel) => (
-            <div
-              key={hotel.Id} // 👈 clave única
-              className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition"
-            >
-              <img
-                src={
-                    hotel.ImagenUrl
-                    ? hotel.ImagenUrl.startsWith("http")
-                        ? hotel.ImagenUrl
-                        : `${appsettings.apiUrl.replace("api/", "")}${hotel.ImagenUrl}`
-                    : "/hotel-default.jpg"
-                }
-                alt={hotel.ImagenUrl}
-                className="w-full h-48 object-cover"
-                />
-              <div className="p-4">
-                <h3 className="text-xl font-semibold text-gray-800">{hotel.Nombre}</h3>
-                <p className="text-gray-500 text-sm">
-                  {hotel.Ciudad}, {hotel.Pais}
-                </p>
-                <p className="mt-1 text-yellow-500">{"⭐".repeat(hotel.Estrellas)}</p>
-                <p className="text-gray-600 mt-2 line-clamp-2">{hotel.Descripcion}</p>
-              </div>
+              {filtered.length > 0 ? (
+              filtered.map((hotel, index) => (
+          <div
+            key={hotel.id ?? index} // usa id si existe, si no el índice
+            className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition"
+          >
+            <img
+              src={
+                hotel.imagenUrl
+                  ? hotel.imagenUrl.startsWith("http")
+                    ? hotel.imagenUrl
+                    : `${appsettings.apiUrl.replace("api/", "")}${hotel.imagenUrl}`
+                  : "/hotel-default.jpg"
+              }
+              alt={hotel.nombre}
+              className="w-full h-48 object-cover"
+            />
+            <div className="p-4">
+              <h3 className="text-xl font-semibold text-gray-800">{hotel.nombre}</h3>
+              <p className="text-gray-500 text-sm">
+                {hotel.ciudad}, {hotel.pais}
+              </p>
+              <p className="mt-1 text-yellow-500">{"⭐".repeat(hotel.estrellas)}</p>
+              <p className="text-gray-600 mt-2 line-clamp-2">{hotel.descripcion}</p>
             </div>
-          ))
-        ) : (
-          <p className="col-span-full text-gray-600 text-center py-10">
-            No se encontraron hoteles que coincidan con los filtros aplicados.
-          </p>
-        )}
+          </div>
+        ))
+      ) : (
+        <p className="col-span-full text-gray-600 text-center py-10">
+          No se encontraron hoteles que coincidan con los filtros aplicados.
+        </p>
+      )}
+
       </div>
     </div>
   );

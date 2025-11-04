@@ -1,11 +1,11 @@
 export interface Hotel {
-  Id: number;
-  Nombre: string;
-  Descripcion: string;
-  Direccion: string;
-  Pais: string;
-  Ciudad: string;
-  Telefono: string;
-  Estrellas: number;
-  ImagenUrl?: string;
+  id: number;
+  nombre: string;
+  descripcion: string;
+  direccion: string;
+  pais: string;
+  ciudad: string;
+  telefono: string;
+  estrellas: number;
+  imagenUrl?: string;
 }
