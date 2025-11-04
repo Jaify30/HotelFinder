@@ -9,7 +9,7 @@ interface Props {
 
 export default function CardHotel({ hotel, imagenes }: Props) {
   const { id, nombre, descripcion, pais, ciudad, estrellas } = hotel;
-  const imagenHotel = imagenes.find((img) => img.ID_Hotel === id);
+  const imagenHotel = imagenes.find((img) => img.id === id);
   const [expandido, setExpandido] = useState(false); // 👈 estado para expandir o no
 
   // Limita el texto si no está expandido
@@ -22,7 +22,7 @@ export default function CardHotel({ hotel, imagenes }: Props) {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col">
       <img
-        src={imagenHotel ? imagenHotel.URL : "/no-image.png"}
+        src={imagenHotel ? imagenHotel.url : "/no-image.png"}
         alt={nombre}
         className="w-full h-48 object-cover"
       />
