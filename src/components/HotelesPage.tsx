@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { appsettings } from "../settings/appsettings";
 import type { Hotel } from "../types/Hoteles";
+import Header from "./Header";
 
 
 
@@ -81,115 +82,118 @@ export default function HotelesPage() {
   }, [pais, ciudad, estrellas, nombre, hoteles]);
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8">
-      <h2 className="text-3xl font-bold text-gray-800 mb-6 border-l-4 border-orange-500 pl-3">
-        Hoteles disponibles
-      </h2>
+    <>
+      <Header/>
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        <h2 className="text-3xl font-bold text-gray-800 mb-6 border-l-4 border-orange-500 pl-3">
+          Hoteles disponibles
+        </h2>
 
-      {/* FILTROS */}
-      <div className="bg-white shadow-md rounded-xl p-5 mb-8 flex flex-wrap gap-4 items-center">
-        {/* Buscar por nombre */}
-        <input
-          type="text"
-          placeholder="Buscar por nombre..."
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          className="border border-gray-300 rounded-lg px-3 py-2 w-60 focus:outline-none focus:ring-orange-500"
-        />
+        {/* FILTROS */}
+        <div className="bg-white shadow-md rounded-xl p-5 mb-8 flex flex-wrap gap-4 items-center">
+          {/* Buscar por nombre */}
+          <input
+            type="text"
+            placeholder="Buscar por nombre..."
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            className="border border-gray-300 rounded-lg px-3 py-2 w-60 focus:outline-none focus:ring-orange-500"
+          />
 
-        {/* País */}
-        <select
-          value={pais}
-          onChange={(e) => {
-            setPais(e.target.value);
-            setCiudad("");
-          }}
-          className="border border-gray-300 rounded-lg px-3 py-2 w-48 focus:outline-none focus:ring-orange-500"
-        >
-          <option value="">--Seleccionar País--</option>
-          {paises.map((p) => (
-            <option key={p} value={p}>
-              {p}
-            </option>
-          ))}
-        </select>
-
-        {/* Ciudad */}
-        <select
-          value={ciudad}
-          onChange={(e) => setCiudad(e.target.value)}
-          disabled={!pais}
-          className={`border border-gray-300 rounded-lg px-3 py-2 w-56 focus:outline-none ${
-            pais ? "focus:ring-2 focus:ring-orange-500" : "bg-gray-100 cursor-not-allowed"
-          }`}
-        >
-          <option value="">{pais ? "Seleccionar ciudad..." : "Seleccione un país primero"}</option>
-          {ciudades.map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
-        </select>
-
-        {/* Estrellas */}
-        <select
-          value={estrellas ?? ""}
-          onChange={(e) => setEstrellas(e.target.value ? parseInt(e.target.value) : null)}
-          className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-        >
-          <option value="">Todas las estrellas</option>
-          <option value="5">⭐⭐⭐⭐⭐</option>
-          <option value="4">⭐⭐⭐⭐</option>
-          <option value="3">⭐⭐⭐</option>
-          <option value="2">⭐⭐</option>
-          <option value="1">⭐</option>
-        </select>
-
-        {/* Botón limpiar */}
-        <button
-          onClick={resetFiltros}
-          className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition"
-        >
-          Limpiar filtros
-        </button>
-      </div>
-
-      {/* LISTADO */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {filtered.length > 0 ? (
-              filtered.map((hotel, index) => (
-          <div
-            key={hotel.id ?? index} // usa id si existe, si no el índice
-            className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition"
+          {/* País */}
+          <select
+            value={pais}
+            onChange={(e) => {
+              setPais(e.target.value);
+              setCiudad("");
+            }}
+            className="border border-gray-300 rounded-lg px-3 py-2 w-48 focus:outline-none focus:ring-orange-500"
           >
-            <img
-              src={
-                hotel.imagenUrl
-                  ? hotel.imagenUrl.startsWith("http")
-                    ? hotel.imagenUrl
-                    : `${appsettings.apiUrl.replace("api/", "")}${hotel.imagenUrl}`
-                  : "/hotel-default.jpg"
-              }
-              alt={hotel.nombre}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="text-xl font-semibold text-gray-800">{hotel.nombre}</h3>
-              <p className="text-gray-500 text-sm">
-                {hotel.ciudad}, {hotel.pais}
-              </p>
-              <p className="mt-1 text-yellow-500">{"⭐".repeat(hotel.estrellas)}</p>
-              <p className="text-gray-600 mt-2 line-clamp-2">{hotel.descripcion}</p>
-            </div>
-          </div>
-        ))
-      ) : (
-        <p className="col-span-full text-gray-600 text-center py-10">
-          No se encontraron hoteles que coincidan con los filtros aplicados.
-        </p>
-      )}
+            <option value="">--Seleccionar País--</option>
+            {paises.map((p) => (
+              <option key={p} value={p}>
+                {p}
+              </option>
+            ))}
+          </select>
 
+          {/* Ciudad */}
+          <select
+            value={ciudad}
+            onChange={(e) => setCiudad(e.target.value)}
+            disabled={!pais}
+            className={`border border-gray-300 rounded-lg px-3 py-2 w-56 focus:outline-none ${
+              pais ? "focus:ring-2 focus:ring-orange-500" : "bg-gray-100 cursor-not-allowed"
+            }`}
+          >
+            <option value="">{pais ? "Seleccionar ciudad..." : "Seleccione un país primero"}</option>
+            {ciudades.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+
+          {/* Estrellas */}
+          <select
+            value={estrellas ?? ""}
+            onChange={(e) => setEstrellas(e.target.value ? parseInt(e.target.value) : null)}
+            className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+          >
+            <option value="">Todas las estrellas</option>
+            <option value="5">⭐⭐⭐⭐⭐</option>
+            <option value="4">⭐⭐⭐⭐</option>
+            <option value="3">⭐⭐⭐</option>
+            <option value="2">⭐⭐</option>
+            <option value="1">⭐</option>
+          </select>
+
+          {/* Botón limpiar */}
+          <button
+            onClick={resetFiltros}
+            className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition"
+          >
+            Limpiar filtros
+          </button>
+        </div>
+
+        {/* LISTADO */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {filtered.length > 0 ? (
+                filtered.map((hotel, index) => (
+            <div
+              key={hotel.id ?? index} // usa id si existe, si no el índice
+              className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition"
+            >
+              <img
+                src={
+                  hotel.imagenUrl
+                    ? hotel.imagenUrl.startsWith("http")
+                      ? hotel.imagenUrl
+                      : `${appsettings.apiUrl.replace("api/", "")}${hotel.imagenUrl}`
+                    : "/hotel-default.jpg"
+                }
+                alt={hotel.nombre}
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-4">
+                <h3 className="text-xl font-semibold text-gray-800">{hotel.nombre}</h3>
+                <p className="text-gray-500 text-sm">
+                  {hotel.ciudad}, {hotel.pais}
+                </p>
+                <p className="mt-1 text-yellow-500">{"⭐".repeat(hotel.estrellas)}</p>
+                <p className="text-gray-600 mt-2 line-clamp-2">{hotel.descripcion}</p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="col-span-full text-gray-600 text-center py-10">
+            No se encontraron hoteles que coincidan con los filtros aplicados.
+          </p>
+        )}
+
+        </div>
       </div>
-    </div>
+    </>
   );
 }

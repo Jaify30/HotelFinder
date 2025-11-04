@@ -106,6 +106,18 @@ export default function CrearCuenta() {
       body: JSON.stringify(nuevoUsuario),
     });
 
+    // Si el correo ya existe
+    if (response.status === 409) {
+      const errorData = await response.json();
+      Swal.fire({
+        icon: "error",
+        title: "Correo en uso",
+        text: errorData.mensaje,
+      });
+      return;
+    }
+
+
     if (!response.ok) {
       throw new Error(`Error HTTP: ${response.status}`);
     }
@@ -114,7 +126,7 @@ export default function CrearCuenta() {
     console.log("✅ Usuario creado:", data);
 
     Swal.fire({
-      title: "Drag me!",
+      title: "Se ha creado tu usuario con éxito!",
       icon: "success",
       draggable: true
     });

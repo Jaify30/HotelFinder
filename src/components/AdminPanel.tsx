@@ -13,6 +13,11 @@ export default function AdminPanel() {
   const navigate = useNavigate();
 
   useEffect(() => {
+  const rol = localStorage.getItem("rol");
+  if (rol !== "admin") navigate("/");
+  }, [navigate]);
+
+  useEffect(() => {
     fetch(`${appsettings.apiUrl}Hotele/Lista`)
       .then((res) => res.json())
       .then((data) => setHoteles(data))

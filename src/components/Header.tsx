@@ -1,6 +1,6 @@
 import { faCog, faPlus, faSignOut, faSignOutAlt, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LoginModal from './LoginModal';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,7 +14,20 @@ export default function Header() {
 
   const handleLogout = () => {
     setRol(null);
+    localStorage.clear();
+    navigate("/");
   };
+
+  const [usuario, setUsuario] = useState<{ nombre?: string } | null>(null);
+
+  useEffect(() => {
+    const rolGuardado = localStorage.getItem("rol");
+    const usuarioGuardado = localStorage.getItem("usuario");
+
+    if (rolGuardado) setRol(rolGuardado);
+    if (usuarioGuardado) setUsuario(JSON.parse(usuarioGuardado));
+  }, []);
+
 
   return (
     <>
@@ -47,7 +60,7 @@ export default function Header() {
             {/* Usuario normal */}
             {rol === "user" && (
               <>
-                <span className="font-medium text-gray-800">Hola, Usuario</span>
+                <span className="font-medium text-gray-800">Hola, {usuario?.nombre}</span>
                 <button
                   onClick={handleLogout}
                   className="hover:text-orange-500 transition"
@@ -89,14 +102,14 @@ export default function Header() {
           </nav>
         </div>
 
-        <LoginModal isOpen={showLogin} onClose={() => setShowLogin(false)} />
+        <LoginModal isOpen={showLogin} onClose={() => setShowLogin(false)} onLoginSuccess={(rol, usuario)=>{
+          setRol(rol);
+          setUsuario(usuario);
+        }} />
       </div>
 
       {/* Botones para probar login */}
-      <div className="flex justify-center gap-4 mt-2">
-        <button onClick={() => setRol("user")} className="bg-green-500 text-white px-3 py-1 rounded-md">Iniciar como Usuario</button>
-        <button onClick={() => setRol("admin")} className="bg-blue-500 text-white px-3 py-1 rounded-md">Iniciar como Admin</button>
-      </div>
+      
     </>
   );
 }

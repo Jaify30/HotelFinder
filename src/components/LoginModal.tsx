@@ -1,17 +1,66 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { appsettings } from "../settings/appsettings";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  onLoginSuccess?: (rol: string, usuario: any) => void;
 }
 
-export default function LoginModal({ isOpen, onClose }: Props) {
+export default function LoginModal({ isOpen, onClose, onLoginSuccess }: Props) {
   const navigate = useNavigate();
-
+  const [correo, setCorreo] = useState("");
+  const [contraseña, setContraseña] = useState("");
   const handleCrearCuenta = () => navigate("/crear");
 
-  // 🔹 Permitir cerrar con la tecla ESC
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!correo || !contraseña) {
+      Swal.fire("Campos vacíos", "Completa correo y contraseña", "warning");
+      return;
+    }
+
+    try {
+      const res = await fetch(`${appsettings.apiUrl}Auth/Login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ correo, contraseña }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.mensaje || "Error en el inicio de sesión");
+
+      Swal.fire({
+        title: "✅ Bienvenido",
+        text: data.mensaje,
+        icon: "success",
+        confirmButtonText: "Continuar",
+      }).then(() => {
+        // Guardar sesión local
+        localStorage.setItem("rol", data.rol);
+        localStorage.setItem("usuario", JSON.stringify(data.datos));
+
+        // 🔹 Avisar al Header sin recargar
+        if (onLoginSuccess) {
+          onLoginSuccess(data.rol, data.datos);
+        }
+
+
+        // Redirigir según rol
+        if (data.rol === "admin") navigate("/");
+        else navigate("/");
+        onClose();
+      });
+    } catch (error: any) {
+      Swal.fire("Error", error.message, "error");
+    }
+  };
+
+  // 🔹 Cerrar con tecla ESC
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -19,12 +68,6 @@ export default function LoginModal({ isOpen, onClose }: Props) {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // lógica de login...
-    console.log("Iniciando sesión...");
-  };
 
   return (
     <div
@@ -48,25 +91,29 @@ export default function LoginModal({ isOpen, onClose }: Props) {
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="block text-gray-700 text-sm mb-1 font-medium">
-              Correo electrónico
+              Correo o usuario
             </label>
             <input
-              type="email"
+              type="text"
+              value={correo}
+              onChange={(e) => setCorreo(e.target.value)}
               required
-              autoFocus
-              placeholder="ejemplo@gmail.com"
-              className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 text-gray-800"
+              placeholder="ejemplo@gmail.com / admin"
+              className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-orange-400 text-gray-800"
             />
           </div>
+
           <div>
             <label className="block text-gray-700 text-sm mb-1 font-medium">
               Contraseña
             </label>
             <input
               type="password"
+              value={contraseña}
+              onChange={(e) => setContraseña(e.target.value)}
               required
               placeholder="********"
-              className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 text-gray-800"
+              className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-orange-400 text-gray-800"
             />
           </div>
 
@@ -77,7 +124,6 @@ export default function LoginModal({ isOpen, onClose }: Props) {
             Entrar
           </button>
         </form>
-
         <div className="mt-6 space-y-3">
           <button
             onClick={handleCrearCuenta}
@@ -94,6 +140,7 @@ export default function LoginModal({ isOpen, onClose }: Props) {
           </button>
         </div>
       </div>
+      
     </div>
   );
 }
