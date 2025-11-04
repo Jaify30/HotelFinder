@@ -1,9 +1,9 @@
 type Pagos = {
-    ID: number;
-    ID_Reserva: number;
-    Metodo: string;
-    Monto: number;
-    Fecha: string;
-    Estado: string;
+    id: number;
+    idReserva: number;
+    metodo: string;
+    monto: number;
+    fecha: string;
+    estado: string;
 }
 export type { Pagos };

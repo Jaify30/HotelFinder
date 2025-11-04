@@ -1,24 +1,27 @@
 import { faClipboardList, faHotel, faStar, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+interface SidebarProps {
+  setSeccion: (seccion: string) => void;
+}
 
-export default function Sidebar() {
+export default function Sidebar({ setSeccion }: SidebarProps) {
   return (
     <aside className="w-64 h-screen bg-orange-500 text-white flex flex-col p-4 space-y-6">
       <h2 className="text-2xl font-bold text-center">Admin</h2>
       <nav className="flex flex-col gap-4">
-        <a href="#" className="hover:bg-orange-600 p-2 rounded-md flex items-center gap-2">
+        <button onClick={() => setSeccion("hoteles")} className="hover:bg-orange-600 p-2 rounded-md flex items-center gap-2">
           <FontAwesomeIcon icon={faHotel} /> Hoteles
-        </a>
-        <a href="#" className="hover:bg-orange-600 p-2 rounded-md flex items-center gap-2">
+        </button>
+        <button onClick={() => setSeccion("usuarios")} className="hover:bg-orange-600 p-2 rounded-md flex items-center gap-2">
           <FontAwesomeIcon icon={faUser} /> Usuarios
-        </a>
-        <a href="#" className="hover:bg-orange-600 p-2 rounded-md flex items-center gap-2">
+        </button>
+        <button onClick={() => setSeccion("reservas")} className="hover:bg-orange-600 p-2 rounded-md flex items-center gap-2">
           <FontAwesomeIcon icon={faClipboardList} /> Reservas
-        </a>
-        <a href="#" className="hover:bg-orange-600 p-2 rounded-md flex items-center gap-2">
+        </button>
+        <button onClick={() => setSeccion("valoraciones")} className="hover:bg-orange-600 p-2 rounded-md flex items-center gap-2">
           <FontAwesomeIcon icon={faStar} /> Valoraciones
-        </a>
+        </button>
       </nav>
     </aside>
   );

@@ -1,11 +1,11 @@
 type Reservas={
-    ID: number;
-    ID_Cliente: number;
-    ID_Hotel: number;
-    ID_Habitacion: number;
-    FechaEntrada:Date;
-    FechaSalida:Date;
-    CantidadHuespedes:number;
-    Estado:string;
+    id: number;
+    idCliente: number;
+    idHotel: number;
+    idHabitacion: number;
+    fechaEntrada:Date;
+    fechaSalida:Date;
+    cantidadHuespedes:number;
+    estado:string;
 }
 export type { Reservas };

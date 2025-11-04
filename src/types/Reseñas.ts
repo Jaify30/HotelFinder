@@ -1,10 +1,10 @@
 type Reseñas={
-    ID: number;
-    Fecha: string;
-    Descripcion: string;
-    Estrellas: number;
-    ID_Cliente: number;
-    ID_Hotel: number;
+    id: number;
+    fecha: string;
+    descripcion: string;
+    estrellas: number;
+    idCliente: number;
+    idHotel: number;
 }
 export type { Reseñas
 }
