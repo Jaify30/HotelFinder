@@ -35,9 +35,9 @@ export default function Hoteles() {
       .then((res) => res.json())
       .then((data: any[]) => {
         const imgsNormalizadas = data.map((img) => ({
-          ID: img.id ?? img.Id,
-          ID_Hotel: img.id_Hotel ?? img.ID_Hotel,
-          URL: img.url ?? img.URL,
+          id: img.id ,
+          idHotel: img.idHotel,
+          url: img.url,
         }));
         setImagenes(imgsNormalizadas);
       })
@@ -58,7 +58,7 @@ export default function Hoteles() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {hotelesVisibles.map((hotel) => {
-          const imagenHotel = imagenes.find((img) => img.ID_Hotel === hotel.id);
+          const imagenHotel = imagenes.find((img) => img.id === hotel.id);
           return (
             <CardHotel
               key={hotel.id}

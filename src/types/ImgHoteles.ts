@@ -1,6 +1,6 @@
 type ImgHoteles = {
-    ID: number;
-    ID_Hotel: number;
-    URL: string;
+    id: number;
+    idHotel: number;
+    url: string;
 };
 export type { ImgHoteles };
