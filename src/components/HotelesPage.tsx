@@ -2,12 +2,15 @@ import { useState, useEffect } from "react";
 import { appsettings } from "../settings/appsettings";
 import type { Hotel } from "../types/Hoteles";
 import Header from "./Header";
+import {useVerHotel} from "../Hooks/useVerPorID"
+
 
 
 
 export default function HotelesPage() {
   const [hoteles, setHoteles] = useState<Hotel[]>([]);
   const [filtered, setFiltered] = useState<Hotel[]>([]);
+  const [verMas, setVerMas] = useState(false);
 
   // filtros
   const [pais, setPais] = useState("");
@@ -18,6 +21,7 @@ export default function HotelesPage() {
   // Listas dropdowns
   const [paises, setPaises] = useState<string[]>([]);
   const [ciudades, setCiudades] = useState<string[]>([]);
+
 
   // 🔸 Cargar países desde la API de countriesnow
   useEffect(() => {
@@ -80,6 +84,9 @@ export default function HotelesPage() {
 
     setFiltered(result);
   }, [pais, ciudad, estrellas, nombre, hoteles]);
+
+  const verHotel = useVerHotel();
+  
 
   return (
     <>
@@ -162,8 +169,8 @@ export default function HotelesPage() {
                 {filtered.length > 0 ? (
                 filtered.map((hotel, index) => (
             <div
-              key={hotel.id ?? index} // usa id si existe, si no el índice
-              className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition"
+              key={hotel.id ?? index}
+              className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition flex flex-col justify-between"
             >
               <img
                 src={
@@ -176,15 +183,56 @@ export default function HotelesPage() {
                 alt={hotel.nombre}
                 className="w-full h-48 object-cover"
               />
-              <div className="p-4">
-                <h3 className="text-xl font-semibold text-gray-800">{hotel.nombre}</h3>
-                <p className="text-gray-500 text-sm">
-                  {hotel.ciudad}, {hotel.pais}
-                </p>
-                <p className="mt-1 text-yellow-500">{"⭐".repeat(hotel.estrellas)}</p>
-                <p className="text-gray-600 mt-2 line-clamp-2">{hotel.descripcion}</p>
+
+              <div className="p-5 flex flex-col grow justify-between">
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-800 text-center">{hotel.nombre}</h3>
+                  <p className="text-gray-500 text-sm text-center">
+                    {hotel.ciudad}, {hotel.pais}
+                  </p>
+                  <p className="mt-1 text-yellow-500 text-center">{"⭐".repeat(hotel.estrellas)}</p>
+                  <p
+                    className={`text-gray-600 mt-2 text-center transition-all duration-300 ${
+                      verMas ? "line-clamp-none" : "line-clamp-2"
+                    }`}
+                  >
+                    {hotel.descripcion}
+                  </p>
+                  {/* Botón "Ver más" */}
+                  {hotel.descripcion && hotel.descripcion.length > 100 && (
+                    <button
+                      onClick={() => setVerMas(!verMas)}
+                      className="text-orange-500 hover:text-orange-600 text-sm mt-1 font-medium focus:outline-none"
+                    >
+                      {verMas ? "Ver menos ▲" : "Ver más ▼"}
+                    </button>
+                  )}
+                </div>
+
+                {/* 🔸 Botón perfectamente centrado */}
+                <button
+                  onClick={() => verHotel(hotel.id!)}
+                  className="mt-auto bg-linear-to-r from-orange-500 to-orange-600 text-white px-6 py-2.5 rounded-full font-medium shadow-md hover:from-orange-600 hover:to-orange-700 hover:shadow-lg transform hover:-translate-y-0.5 transition duration-300 ease-in-out flex items-center justify-center gap-2 self-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="w-5 h-5"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15 12H3m12 0l-4 4m4-4l-4-4m10 8V8a2 2 0 00-2-2H7"
+                    />
+                  </svg>
+                  Ver hotel
+                </button>
               </div>
             </div>
+
           ))
         ) : (
           <p className="col-span-full text-gray-600 text-center py-10">

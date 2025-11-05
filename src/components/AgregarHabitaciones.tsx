@@ -30,7 +30,7 @@ export default function AgregarHabitaciones() {
     };
 
     try {
-      const res = await fetch(`${appsettings.apiUrl}Habitacione/Nuevo`, {
+      const res = await fetch(`${appsettings.apiUrl}Habitaciones/Nuevo`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(nuevaHabitacion),
@@ -93,7 +93,7 @@ export default function AgregarHabitaciones() {
 
           {/* Precio */}
           <div>
-            <label className="block text-gray-700 mb-1">Precio (USD)</label>
+            <label className="block text-gray-700 mb-1">Precio Por Noche (USD)</label>
             <input
               type="number"
               min="1"

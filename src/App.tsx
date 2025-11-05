@@ -5,6 +5,7 @@ import CrearHotel from "./components/CrearHotel"
 import HotelesPage from "./components/HotelesPage"
 import AdminPanel from "./components/AdminPanel"
 import AgregarHabitaciones from "./components/AgregarHabitaciones"
+import VerHotel from "./components/VerHotel"
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/Hoteles" element={<HotelesPage/>}></Route>
         <Route path="/AdminPanel" element={<AdminPanel />} />
         <Route path="/AgregarHabitaciones/:id" element={<AgregarHabitaciones/>} />
+        <Route path="/hotel/:id" element={<VerHotel/>}/>
       </Routes>
     </BrowserRouter>
   )

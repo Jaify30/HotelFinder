@@ -1,11 +1,11 @@
-type Reservas={
-    id: number;
-    idCliente: number;
-    idHotel: number;
-    idHabitacion: number;
-    fechaEntrada:Date;
-    fechaSalida:Date;
-    cantidadHuespedes:number;
-    estado:string;
-}
-export type { Reservas };
+export type Reservas = {
+  id: number;
+  clienteNombre: string;
+  clienteDni: string;
+  hotelNombre: string;
+  habitacionTipo: string;
+  fechaEntrada: string;
+  fechaSalida: string;
+  cantidadHuespedes: number;
+  estado: string;
+};
