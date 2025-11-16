@@ -8,6 +8,7 @@ import {
   faStar,
   faTrash,
   faUser,
+  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { appsettings } from "../settings/appsettings";
@@ -24,6 +25,7 @@ export default function AdminPanel() {
   const [listaUsuarios, setListaUsuarios] = useState<Usuario[]>([]);
   const [listaReservas, setListaReservas] = useState<Reservas[]>([]);
   const [listaReseñas, setListaReseñas] = useState<Reseñas[]>([]);
+  const [filtroDni, setFiltroDni] = useState("");
   const [seccion, setSeccion] = useState("hoteles");
   const navigate = useNavigate();
 
@@ -43,40 +45,28 @@ export default function AdminPanel() {
     if (rol !== "admin") navigate("/");
   }, [navigate]);
 
-  // 🔹 Cargar hoteles
+  // 🔹 Cargar datos
   useEffect(() => {
     fetch(`${appsettings.apiUrl}Hotele/Lista`)
       .then((res) => res.json())
       .then(setListaHoteles)
       .catch(console.error);
-  }, []);
 
-  // 🔹 Cargar usuarios
-  useEffect(() => {
     fetch(`${appsettings.apiUrl}Usuario/Lista`)
       .then((res) => res.json())
       .then(setListaUsuarios)
       .catch(console.error);
-  }, []);
 
-  // 🔹 Cargar reservas
-  useEffect(() => {
     fetch(`${appsettings.apiUrl}Reserva/Lista`)
       .then((res) => res.json())
       .then(setListaReservas)
       .catch(console.error);
-  }, []);
 
-  // 🔹 Cargar reseñas
-  useEffect(() => {
-  fetch(`${appsettings.apiUrl}Resenias/Lista`)
-    .then((res) => {
-      if (!res.ok) throw new Error("Error al cargar reseñas");
-      return res.json();
-    })
-    .then(setListaReseñas)
-    .catch(console.error);
-}, []);
+    fetch(`${appsettings.apiUrl}Resenias/Lista`)
+      .then((res) => res.json())
+      .then(setListaReseñas)
+      .catch(console.error);
+  }, []);
 
   const handleAgregarHabitaciones = (id: number) => {
     navigate(`/AgregarHabitaciones/${id}`);
@@ -85,6 +75,17 @@ export default function AdminPanel() {
   if (loading)
     return <p className="text-center mt-6">Cargando estadísticas...</p>;
   if (error) return <p className="text-red-500 text-center">{error}</p>;
+
+  // 🔎 Filtros
+  const usuariosFiltrados = listaUsuarios.filter((u) =>
+    u.dniPasaporte?.toString().toLowerCase().includes(filtroDni.toLowerCase())
+  );
+  const reseñasFiltradas = listaReseñas.filter((r) =>
+    r.clienteDni?.toString().toLowerCase().includes(filtroDni.toLowerCase())
+  );
+  const reservasFiltradas = listaReservas.filter((r) =>
+    r.clienteDni?.toString().toLowerCase().includes(filtroDni.toLowerCase())
+  );
 
   return (
     <div className="flex">
@@ -171,9 +172,25 @@ export default function AdminPanel() {
         {/* 🔹 Sección Usuarios */}
         {seccion === "usuarios" && (
           <div className="bg-white rounded-xl shadow-md p-6">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-              Usuarios Registrados
-            </h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-semibold text-gray-800">
+                Usuarios Registrados
+              </h2>
+              <div className="relative">
+                <FontAwesomeIcon
+                  icon={faSearch}
+                  className="absolute left-3 top-2.5 text-gray-400"
+                />
+                <input
+                  type="text"
+                  placeholder="Buscar por DNI o Pasaporte..."
+                  value={filtroDni}
+                  onChange={(e) => setFiltroDni(e.target.value)}
+                  className="pl-9 pr-3 py-2 border rounded-lg w-64 focus:ring-2 focus:ring-orange-500 focus:outline-none"
+                />
+              </div>
+            </div>
+
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b text-gray-600">
@@ -186,7 +203,7 @@ export default function AdminPanel() {
                 </tr>
               </thead>
               <tbody>
-                {listaUsuarios.map((u) => (
+                {usuariosFiltrados.map((u) => (
                   <tr key={u.id} className="border-b hover:bg-gray-50">
                     <td className="py-3">
                       {u.apellido}, {u.nombre}
@@ -217,9 +234,9 @@ export default function AdminPanel() {
                 ))}
               </tbody>
             </table>
-            {listaUsuarios.length === 0 && (
+            {usuariosFiltrados.length === 0 && (
               <p className="text-center text-gray-500 mt-4">
-                No hay usuarios registrados.
+                No se encontraron usuarios.
               </p>
             )}
           </div>
@@ -228,9 +245,25 @@ export default function AdminPanel() {
         {/* 🔹 Sección Valoraciones */}
         {seccion === "valoraciones" && (
           <div className="bg-white rounded-xl shadow-md p-6">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-              Reseñas y Valoraciones
-            </h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-semibold text-gray-800">
+                Reseñas y Valoraciones
+              </h2>
+              <div className="relative">
+                <FontAwesomeIcon
+                  icon={faSearch}
+                  className="absolute left-3 top-2.5 text-gray-400"
+                />
+                <input
+                  type="text"
+                  placeholder="Buscar por DNI o Pasaporte..."
+                  value={filtroDni}
+                  onChange={(e) => setFiltroDni(e.target.value)}
+                  className="pl-9 pr-3 py-2 border rounded-lg w-64 focus:ring-2 focus:ring-orange-500 focus:outline-none"
+                />
+              </div>
+            </div>
+
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b text-gray-600">
@@ -244,7 +277,7 @@ export default function AdminPanel() {
                 </tr>
               </thead>
               <tbody>
-                {listaReseñas.map((r) => (
+                {reseñasFiltradas.map((r) => (
                   <tr key={r.id} className="border-b hover:bg-gray-50">
                     <td className="py-3 font-medium">{r.hotelNombre}</td>
                     <td className="py-3">{r.clienteNombre}</td>
@@ -264,7 +297,7 @@ export default function AdminPanel() {
                             refetch();
                           })
                         }
-                        className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded ml-2 cursor-pointer flex items-center gap-1"
+                        className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded ml-2 flex items-center gap-1"
                       >
                         <FontAwesomeIcon icon={faTrash} /> Eliminar
                       </button>
@@ -274,9 +307,68 @@ export default function AdminPanel() {
               </tbody>
             </table>
 
-            {listaReseñas.length === 0 && (
+            {reseñasFiltradas.length === 0 && (
               <p className="text-center text-gray-500 mt-4">
-                No hay reseñas registradas.
+                No se encontraron reseñas.
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* 🔹 Sección Reservas */}
+        {seccion === "reservas" && (
+          <div className="bg-white rounded-xl shadow-md p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-semibold text-gray-800">
+                Reservas (Activas y No Activas)
+              </h2>
+              <div className="relative">
+                <FontAwesomeIcon
+                  icon={faSearch}
+                  className="absolute left-3 top-2.5 text-gray-400"
+                />
+                <input
+                  type="text"
+                  placeholder="Buscar por DNI o Pasaporte..."
+                  value={filtroDni}
+                  onChange={(e) => setFiltroDni(e.target.value)}
+                  className="pl-9 pr-3 py-2 border rounded-lg w-64 focus:ring-2 focus:ring-orange-500 focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b text-gray-600">
+                  <th className="py-2">Hotel</th>
+                  <th className="py-2">Cliente</th>
+                  <th className="py-2 text-center">DNI/Pasaporte</th>
+                  <th className="py-2 text-center">Cant. Huéspedes</th>
+                  <th className="py-2 text-center">Fecha Entrada</th>
+                  <th className="py-2 text-center">Fecha Salida</th>
+                  <th className="py-2 text-center">Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                {reservasFiltradas.map((r) => (
+                  <tr key={r.id} className="border-b hover:bg-gray-50">
+                    <td className="py-3 font-medium">{r.hotelNombre}</td>
+                    <td className="py-3">{r.clienteNombre}</td>
+                    <td className="py-3 text-center">{r.clienteDni}</td>
+                    <td className="py-3 text-center">
+                      {r.cantidadHuespedes}
+                    </td>
+                    <td className="py-3 text-center">{r.fechaEntrada}</td>
+                    <td className="py-3 text-center">{r.fechaSalida}</td>
+                    <td className="py-3 text-center">{r.estado}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {reservasFiltradas.length === 0 && (
+              <p className="text-center text-gray-500 mt-4">
+                No se encontraron reservas.
               </p>
             )}
           </div>

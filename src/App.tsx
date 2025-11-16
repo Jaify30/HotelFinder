@@ -6,6 +6,10 @@ import HotelesPage from "./components/HotelesPage"
 import AdminPanel from "./components/AdminPanel"
 import AgregarHabitaciones from "./components/AgregarHabitaciones"
 import VerHotel from "./components/VerHotel"
+import PagosPage from "./components/PagosPage"
+import MisReservas from "./components/MisReservas"
+import CrearResena from "./components/CrearResena"
+
 
 
 function App() {
@@ -20,6 +24,10 @@ function App() {
         <Route path="/AdminPanel" element={<AdminPanel />} />
         <Route path="/AgregarHabitaciones/:id" element={<AgregarHabitaciones/>} />
         <Route path="/hotel/:id" element={<VerHotel/>}/>
+        <Route path="/PagosPage" element={<PagosPage />}/>
+        <Route path="/MisReservas" element={<MisReservas />} />
+        <Route path="/CrearResena" element={<CrearResena />} />
+
       </Routes>
     </BrowserRouter>
   )

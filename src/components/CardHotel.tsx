@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { ImgHoteles } from "../types/ImgHoteles";
 import type { Hotel } from "../types/Hoteles";
 import { appsettings } from "../settings/appsettings";
+import { useVerHotel } from "../Hooks/useVerPorID";
 
 interface Props {
   hotel: Hotel;
@@ -13,6 +14,7 @@ export default function CardHotel({ hotel, imagenes }: Props) {
   const imagenHotel = imagenes.find((img) => img.id === id);
   const [expandido, setExpandido] = useState(false); // 👈 estado para expandir o no
 
+  const verHotel = useVerHotel()
   // Limita el texto si no está expandido
   const textoMostrar = expandido
     ? descripcion
@@ -60,7 +62,8 @@ export default function CardHotel({ hotel, imagenes }: Props) {
 
         {/* Botón inferior */}
         <div className="mt-auto">
-          <button className="w-full cursor-pointer bg-orange-500 mt-4 text-white py-2 rounded hover:bg-orange-600 transition">
+          <button className="w-full cursor-pointer bg-orange-500 mt-4 text-white py-2 rounded hover:bg-orange-600 transition"
+          onClick={()=>verHotel(id)}>
             Ver Hotel
           </button>
         </div>

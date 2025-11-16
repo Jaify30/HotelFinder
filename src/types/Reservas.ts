@@ -1,11 +1,12 @@
-export type Reservas = {
+export interface Reservas {
   id: number;
-  clienteNombre: string;
-  clienteDni: string;
+  idCliente: number;  
+  idHotel: number;    
   hotelNombre: string;
+  clienteDni: string;
   habitacionTipo: string;
   fechaEntrada: string;
   fechaSalida: string;
   cantidadHuespedes: number;
   estado: string;
-};
+}

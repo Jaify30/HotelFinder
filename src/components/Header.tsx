@@ -28,7 +28,6 @@ export default function Header() {
     if (usuarioGuardado) setUsuario(JSON.parse(usuarioGuardado));
   }, []);
 
-
   return (
     <>
       <div className="bg-linear-to-b from-orange-500 to-transparent text-white border-white/10">
@@ -57,10 +56,18 @@ export default function Header() {
               </button>
             )}
 
-            {/* Usuario normal */}
             {rol === "user" && (
               <>
+                <button
+                    onClick={() => navigate("/MisReservas")}
+                    className="hover:text-orange-500 transition"
+                  >
+                    Mis Reservas
+                </button>
                 <span className="font-medium text-gray-800">Hola, {usuario?.nombre}</span>
+
+                
+
                 <button
                   onClick={handleLogout}
                   className="hover:text-orange-500 transition"

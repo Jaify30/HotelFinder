@@ -4,6 +4,7 @@ import { appsettings } from "../settings/appsettings";
 import type { Hotel } from "../types/Hoteles";
 import type { ImgHoteles } from "../types/ImgHoteles";
 
+
 export default function Hoteles() {
   const [hoteles, setHoteles] = useState<Hotel[]>([]);
   const [imagenes, setImagenes] = useState<ImgHoteles[]>([]);
@@ -49,6 +50,8 @@ export default function Hoteles() {
 
   // 🔸 Mostrar los primeros 3 o los 6 según el estado
   const hotelesVisibles = mostrarTodos ? hotelesTop : hotelesTop.slice(0, 3);
+
+  
 
   return (
     <div className="mt-10 relative w-full max-w-7xl mx-auto overflow-hidden rounded-xl shadow-lg">

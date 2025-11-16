@@ -13,6 +13,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }: Props) {
   const navigate = useNavigate();
   const [correo, setCorreo] = useState("");
   const [contraseña, setContraseña] = useState("");
+
   const handleCrearCuenta = () => navigate("/crear");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,7 +32,6 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }: Props) {
       });
 
       const data = await res.json();
-
       if (!res.ok) throw new Error(data.mensaje || "Error en el inicio de sesión");
 
       Swal.fire({
@@ -40,19 +40,27 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }: Props) {
         icon: "success",
         confirmButtonText: "Continuar",
       }).then(() => {
-        // Guardar sesión local
-        localStorage.setItem("rol", data.rol);
-        localStorage.setItem("usuario", JSON.stringify(data.datos));
+        // 🔹 Guardar datos del usuario con DNI incluido
+        const usuario = {
+          id: data.datos.id,
+          nombre: data.datos.nombre,
+          apellido: data.datos.apellido,
+          correo: data.datos.correo,
+          dni: data.datos.dniPasaporte, // ✅ Guardamos el DNI también
+          rol: data.rol,
+        };
 
-        // 🔹 Avisar al Header sin recargar
+        // Guardar en localStorage
+        localStorage.setItem("rol", data.rol);
+        localStorage.setItem("usuario", JSON.stringify(usuario));
+
+        // 🔹 Avisar al Header o componente padre
         if (onLoginSuccess) {
-          onLoginSuccess(data.rol, data.datos);
+          onLoginSuccess(data.rol, usuario);
         }
 
-
-        // Redirigir según rol
-        if (data.rol === "admin") navigate("/");
-        else navigate("/");
+        // 🔹 Redirigir según el rol
+        navigate("/");
         onClose();
       });
     } catch (error: any) {
@@ -60,7 +68,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }: Props) {
     }
   };
 
-  // 🔹 Cerrar con tecla ESC
+  // 🔹 Permite cerrar con tecla ESC
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -124,6 +132,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }: Props) {
             Entrar
           </button>
         </form>
+
         <div className="mt-6 space-y-3">
           <button
             onClick={handleCrearCuenta}
@@ -140,7 +149,6 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }: Props) {
           </button>
         </div>
       </div>
-      
     </div>
   );
 }

@@ -222,6 +222,7 @@ export default function VerHotel() {
 
       {/* 🔹 Modal de reserva */}
       <ReservaModal
+        hotelId={hotel.id}
         isOpen={showReserva}
         onClose={() => setShowReserva(false)}
         habitaciones={habitaciones}
