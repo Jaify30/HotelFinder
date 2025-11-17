@@ -11,12 +11,15 @@ import MisReservas from "./components/MisReservas"
 import CrearResena from "./components/CrearResena"
 import AdminHabitaciones from "./components/AdminHabitaciones"
 import HotelDashboard from "./components/HotelDashBoard"
+import SobreNosotros from "./components/SobreNosotros"
+import Footer from "./components/Footer"
 
 
 
 function App() {
 
   return (
+    <>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Index/>}/>
@@ -31,9 +34,12 @@ function App() {
         <Route path="/CrearResena" element={<CrearResena />} />
         <Route path="/Admin/Habitaciones/:idHotel" element={<AdminHabitaciones />} />
         <Route path="/HotelDashBoard/:idHotel" element={<HotelDashboard/>}/>
+        <Route path="SobreNosotros" element={<SobreNosotros/>}/>
 
       </Routes>
     </BrowserRouter>
+    <Footer/>
+    </>
   )
 }
 

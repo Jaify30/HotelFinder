@@ -19,6 +19,7 @@ import type { Reservas } from "../types/Reservas";
 import type { Reseñas } from "../types/Reseñas";
 import { Eliminar } from "../Hooks/EliminarHook";
 import { useContadores } from "../Hooks/useContador";
+import Swal from "sweetalert2";
 
 export default function AdminPanel() {
   const [listaHoteles, setListaHoteles] = useState<Hotel[]>([]);
@@ -28,6 +29,13 @@ export default function AdminPanel() {
   const [filtroDni, setFiltroDni] = useState("");
   const [seccion, setSeccion] = useState("hoteles");
   const navigate = useNavigate();
+  const [usuarioEditar, setUsuarioEditar] = useState<Usuario | null>(null);
+  const [showModalEditar, setShowModalEditar] = useState(false);
+
+  const handleEditarUsuario = (user: Usuario) => {
+    setUsuarioEditar(user);
+    setShowModalEditar(true);
+  };
 
   const {
     usuarios,
@@ -150,24 +158,37 @@ export default function AdminPanel() {
                     <td className="py-3">{hotel.ciudad}</td>
                     <td className="py-3 text-center">{hotel.estrellas}</td>
                     <td className="py-3 text-center flex flex-col gap-2">
+                      {/* AGREGAR HABITACIONES */}
+                      <button
+                        onClick={() => handleAgregarHabitaciones(hotel.id)}
+                        className="bg-orange-500 text-white px-3 py-1 rounded-md hover:bg-orange-600 flex items-center justify-center gap-1"
+                      >
+                        <FontAwesomeIcon icon={faHotel} /> Agregar Habitación
+                      </button>
 
-                    {/* AGREGAR HABITACIONES */}
-                    <button
-                      onClick={() => handleAgregarHabitaciones(hotel.id)}
-                      className="bg-orange-500 text-white px-3 py-1 rounded-md hover:bg-orange-600 flex items-center justify-center gap-1"
-                    >
-                      <FontAwesomeIcon icon={faHotel} /> Agregar Habitación
-                    </button>
-
-                    {/* VER HABITACIONES */}
-                    <button
-                      onClick={() => navigate(`/Admin/Habitaciones/${hotel.id}`)}
-                      className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 flex items-center justify-center gap-1"
-                    >
-                      <FontAwesomeIcon icon={faSearch} /> Ver Habitaciones
-                    </button>
-
-                  </td>
+                      {/* VER HABITACIONES */}
+                      <button
+                        onClick={() =>
+                          navigate(`/Admin/Habitaciones/${hotel.id}`)
+                        }
+                        className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 flex items-center justify-center gap-1"
+                      >
+                        <FontAwesomeIcon icon={faSearch} /> Ver Habitaciones
+                      </button>
+                      <button
+                        onClick={() =>
+                          Eliminar("Hotele", hotel.id, () => {
+                            setListaHoteles((prev) =>
+                              prev.filter((h) => h.id !== hotel.id)
+                            );
+                            refetch();
+                          })
+                        }
+                        className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 flex items-center justify-center gap-1"
+                      >
+                        <FontAwesomeIcon icon={faTrash} /> Dar de baja
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -224,7 +245,10 @@ export default function AdminPanel() {
                     <td className="py-3 text-center">{u.genero}</td>
                     <td className="py-3 text-center">{u.dniPasaporte}</td>
                     <td className="py-3 text-center flex justify-center">
-                      <button className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded flex items-center gap-1">
+                      <button
+                        onClick={() => handleEditarUsuario(u)}
+                        className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded flex items-center gap-1"
+                      >
                         <FontAwesomeIcon icon={faPencil} /> Editar
                       </button>
                       <button
@@ -358,6 +382,7 @@ export default function AdminPanel() {
                   <th className="py-2 text-center">Fecha Entrada</th>
                   <th className="py-2 text-center">Fecha Salida</th>
                   <th className="py-2 text-center">Estado</th>
+                  <th className="py-2 text-center">Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -366,12 +391,156 @@ export default function AdminPanel() {
                     <td className="py-3 font-medium">{r.hotelNombre}</td>
                     <td className="py-3 font-medium">{r.clienteNombre}</td>
                     <td className="py-3 text-center">{r.clienteDni}</td>
-                    <td className="py-3 text-center">
-                      {r.cantidadHuespedes}
-                    </td>
+                    <td className="py-3 text-center">{r.cantidadHuespedes}</td>
                     <td className="py-3 text-center">{r.fechaEntrada}</td>
                     <td className="py-3 text-center">{r.fechaSalida}</td>
                     <td className="py-3 text-center">{r.estado}</td>
+                    <td className="py-3 text-center">
+                      {/* 🔵 ESTADO: Activa → Cancelar */}
+                      {r.estado === "Activa" && (
+                        <button
+                          onClick={() => {
+                            Swal.fire({
+                              title: "¿Cancelar reserva?",
+                              text: "Esta acción no se puede deshacer.",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonColor: "#d33",
+                              cancelButtonColor: "#3085d6",
+                              confirmButtonText: "Sí, cancelar",
+                              cancelButtonText: "No, volver",
+                            }).then(async (result) => {
+                              if (result.isConfirmed) {
+                                await fetch(
+                                  `${appsettings.apiUrl}Reserva/Cancelar/${r.id}`,
+                                  {
+                                    method: "PUT",
+                                  }
+                                );
+
+                                setListaReservas((prev) =>
+                                  prev.map((res) =>
+                                    res.id === r.id
+                                      ? { ...res, estado: "Cancelada" }
+                                      : res
+                                  )
+                                );
+                                refetch();
+
+                                Swal.fire({
+                                  title: "Cancelada",
+                                  text: "La reserva fue cancelada correctamente.",
+                                  icon: "success",
+                                  confirmButtonColor: "#3085d6",
+                                });
+                              }
+                            });
+                          }}
+                          className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded flex items-center gap-1"
+                        >
+                          <FontAwesomeIcon icon={faTrash} /> Cancelar
+                        </button>
+                      )}
+
+                      {/* 🟠 ESTADO: Confirmada → Cancelar */}
+                      {r.estado === "Confirmada" && (
+                        <button
+                          onClick={() => {
+                            Swal.fire({
+                              title: "¿Cancelar reserva confirmada?",
+                              text: "El cliente perderá la reserva.",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonColor: "#d33",
+                              cancelButtonColor: "#3085d6",
+                              confirmButtonText: "Sí, cancelar",
+                              cancelButtonText: "No, volver",
+                            }).then(async (result) => {
+                              if (result.isConfirmed) {
+                                await fetch(
+                                  `${appsettings.apiUrl}Reserva/Cancelar/${r.id}`,
+                                  {
+                                    method: "PUT",
+                                  }
+                                );
+
+                                setListaReservas((prev) =>
+                                  prev.map((res) =>
+                                    res.id === r.id
+                                      ? { ...res, estado: "Cancelada" }
+                                      : res
+                                  )
+                                );
+                                refetch();
+
+                                Swal.fire({
+                                  title: "Cancelada",
+                                  text: "La reserva confirmada fue cancelada.",
+                                  icon: "success",
+                                  confirmButtonColor: "#3085d6",
+                                });
+                              }
+                            });
+                          }}
+                          className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded flex items-center gap-1"
+                        >
+                          <FontAwesomeIcon icon={faTrash} /> Cancelar
+                        </button>
+                      )}
+
+                      {/* 🟢 ESTADO: Cancelada → Activar */}
+                      {r.estado === "Cancelada" && (
+                        <button
+                          onClick={() => {
+                            Swal.fire({
+                              title: "¿Activar reserva?",
+                              text: "La reserva volverá a estar activa.",
+                              icon: "question",
+                              showCancelButton: true,
+                              confirmButtonColor: "#28a745",
+                              cancelButtonColor: "#3085d6",
+                              confirmButtonText: "Sí, activar",
+                              cancelButtonText: "No, volver",
+                            }).then(async (result) => {
+                              if (result.isConfirmed) {
+                                await fetch(
+                                  `${appsettings.apiUrl}Reserva/Activar/${r.id}`,
+                                  {
+                                    method: "PUT",
+                                  }
+                                );
+
+                                setListaReservas((prev) =>
+                                  prev.map((res) =>
+                                    res.id === r.id
+                                      ? { ...res, estado: "Activa" }
+                                      : res
+                                  )
+                                );
+                                refetch();
+
+                                Swal.fire({
+                                  title: "Activada",
+                                  text: "La reserva fue activada correctamente.",
+                                  icon: "success",
+                                  confirmButtonColor: "#3085d6",
+                                });
+                              }
+                            });
+                          }}
+                          className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded flex items-center gap-1"
+                        >
+                          <FontAwesomeIcon icon={faPencil} /> Activar
+                        </button>
+                      )}
+
+                      {/* 🟣 ESTADO: Completada → SIN ACCIONES */}
+                      {r.estado === "Completada" && (
+                        <span className="text-gray-400 italic">
+                          No disponible
+                        </span>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -385,6 +554,77 @@ export default function AdminPanel() {
           </div>
         )}
       </div>
+
+      {showModalEditar && usuarioEditar && (
+  <div
+    className={`fixed inset-0 flex items-center justify-center z-50 transition-all duration-300 ${
+        showModalEditar
+          ? "opacity-100 visible backdrop-blur-md bg-black/50"
+          : "opacity-0 invisible"
+      }`}
+  >
+    <div
+      className="bg-white p-6 rounded-xl w-96 shadow-lg
+                 transform transition-all duration-300 
+                 opacity-100 scale-100"
+    >
+      <h2 className="text-xl font-bold mb-4">Editar Usuario</h2>
+
+      <input
+        className="w-full border p-2 rounded mb-2"
+        value={usuarioEditar.nombre}
+        onChange={(e) =>
+          setUsuarioEditar({ ...usuarioEditar, nombre: e.target.value })
+        }
+      />
+      <input
+        className="w-full border p-2 rounded mb-2"
+        value={usuarioEditar.apellido}
+        onChange={(e) =>
+          setUsuarioEditar({ ...usuarioEditar, apellido: e.target.value })
+        }
+      />
+      <input
+        className="w-full border p-2 rounded mb-2"
+        value={usuarioEditar.correo}
+        onChange={(e) =>
+          setUsuarioEditar({ ...usuarioEditar, correo: e.target.value })
+        }
+      />
+
+      <div className="flex justify-end gap-3 mt-4">
+        <button
+          className="px-3 py-1 bg-gray-400 text-white rounded hover:bg-gray-500 transition"
+          onClick={() => setShowModalEditar(false)}
+        >
+          Cancelar
+        </button>
+        <button
+          className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition"
+          onClick={async () => {
+            await fetch(`${appsettings.apiUrl}Usuario/Editar`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(usuarioEditar),
+            });
+
+            setListaUsuarios((prev) =>
+              prev.map((u) =>
+                u.id === usuarioEditar.id ? usuarioEditar : u
+              )
+            );
+
+            setShowModalEditar(false);
+            refetch();
+          }}
+        >
+          Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }
