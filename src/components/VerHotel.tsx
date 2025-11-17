@@ -8,6 +8,7 @@ import type { Reseñas } from "../types/Reseñas";
 import Header from "./Header";
 import ReservaModal from "./ReservaModal";
 import LoginModal from "./LoginModal";
+import HabitacionModal from "./HabitacionModal";
 
 export default function VerHotel() {
   const { id } = useParams();
@@ -17,6 +18,9 @@ export default function VerHotel() {
   const [rol, setRol] = useState<string | null>(null);
   const [showLogin, setShowLogin] = useState(false);
   const [showReserva, setShowReserva] = useState(false);
+  const [habitacionSeleccionada, setHabitacionSeleccionada] = useState<number | null>(null);
+  const [showHabitacionModal, setShowHabitacionModal] = useState(false);
+
 
   // Estados nuevos
   const [habitaciones, setHabitaciones] = useState<Habitaciones[]>([]);
@@ -101,16 +105,16 @@ export default function VerHotel() {
           {"⭐".repeat(hotel.estrellas)}
         </p>
 
-        {/* 📸 Imagen principal */}
+      
         {imagenSeleccionada && (
-          <div className="mb-6">
-            <img
-              src={imagenSeleccionada}
-              alt="Imagen del hotel"
-              className="w-full h-96 object-cover rounded-xl shadow-lg"
-            />
-          </div>
-        )}
+  <div className="mb-6 object-contain ">
+    <img
+      src={imagenSeleccionada}
+      alt="Imagen del hotel"
+      className="w-full h-96 object-cover rounded-xl shadow-lg"
+    />
+  </div>
+)}
 
         {/* 🖼️ Miniaturas */}
         {imagenes.length > 1 && (
@@ -139,29 +143,43 @@ export default function VerHotel() {
           <p>{hotel.descripcion}</p>
         </div>
 
-        {/* 🛏️ Habitaciones */}
         <div className="mt-10 bg-white rounded-xl shadow p-6">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4 border-l-4 border-orange-500 pl-2">
             Habitaciones disponibles
           </h2>
+
           {habitaciones.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {habitaciones.map((hab) => (
                 <div
                   key={hab.id}
-                  className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition"
+                  className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition cursor-pointer"
                 >
                   <h3 className="text-lg font-semibold text-gray-800 mb-1">
                     {hab.tipo}
                   </h3>
+
                   <p className="text-gray-600 mb-2">{hab.caracteristicas}</p>
+
                   <p className="text-sm text-gray-500 mb-1">
                     Máx. huéspedes:{" "}
                     <span className="font-semibold">{hab.maxHuespedes}</span>
                   </p>
-                  <p className="text-lg font-bold text-orange-500">
+
+                  <p className="text-lg font-bold text-orange-500 mb-4">
                     ${hab.precio.toFixed(2)} USD/Noche
                   </p>
+
+                  {/* 🔸 Botón abrir modal */}
+                  <button
+                    className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-lg font-semibold transition"
+                    onClick={() => {
+                      setHabitacionSeleccionada(hab.id);
+                      setShowHabitacionModal(true);
+                    }}
+                  >
+                    Ver imágenes
+                  </button>
                 </div>
               ))}
             </div>
@@ -169,6 +187,7 @@ export default function VerHotel() {
             <p className="text-gray-500">No hay habitaciones disponibles.</p>
           )}
         </div>
+
 
         {/* 💬 Reseñas */}
         <div className="mt-10 bg-white rounded-xl shadow p-6">
@@ -228,6 +247,11 @@ export default function VerHotel() {
         habitaciones={habitaciones}
         hotelNombre={hotel.nombre}
       />
+      <HabitacionModal
+      habitacionId={habitacionSeleccionada}
+      isOpen={showHabitacionModal}
+      onClose={() => setShowHabitacionModal(false)}
+    />
     </>
   );
 }

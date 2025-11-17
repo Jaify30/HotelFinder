@@ -41,27 +41,31 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }: Props) {
         confirmButtonText: "Continuar",
       }).then(() => {
         // 🔹 Guardar datos del usuario con DNI incluido
+
         const usuario = {
           id: data.datos.id,
           nombre: data.datos.nombre,
           apellido: data.datos.apellido,
           correo: data.datos.correo,
-          dni: data.datos.dniPasaporte, // ✅ Guardamos el DNI también
+          dni: data.datos.dniPasaporte,
           rol: data.rol,
+          idHotel: data.datos.idHotel ?? null
         };
 
-        // Guardar en localStorage
+        // Guardar en localStorage SIEMPRE el mismo modelo
         localStorage.setItem("rol", data.rol);
         localStorage.setItem("usuario", JSON.stringify(usuario));
 
-        // 🔹 Avisar al Header o componente padre
-        if (onLoginSuccess) {
-          onLoginSuccess(data.rol, usuario);
-        }
+        // Avisar al header
+        onLoginSuccess?.(data.rol, usuario);
 
-        // 🔹 Redirigir según el rol
-        navigate("/");
+        // Redirecciones
+        if (data.rol === "user") navigate("/");
+        if (data.rol === "admin") navigate("/AdminPanel");
+        if (data.rol === "hotel") navigate(`/HotelDashboard/${usuario.idHotel}`);
+
         onClose();
+
       });
     } catch (error: any) {
       Swal.fire("Error", error.message, "error");

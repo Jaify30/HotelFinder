@@ -9,4 +9,6 @@ export interface Reservas {
   fechaSalida: string;
   cantidadHuespedes: number;
   estado: string;
+  clienteNombre: string;
+  
 }

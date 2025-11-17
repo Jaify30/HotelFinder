@@ -149,14 +149,25 @@ export default function AdminPanel() {
                     <td className="py-3">{hotel.pais}</td>
                     <td className="py-3">{hotel.ciudad}</td>
                     <td className="py-3 text-center">{hotel.estrellas}</td>
-                    <td className="py-3 text-center">
-                      <button
-                        onClick={() => handleAgregarHabitaciones(hotel.id)}
-                        className="bg-orange-500 text-white px-3 py-1 rounded-md hover:bg-orange-600 flex items-center justify-center gap-1 mx-auto"
-                      >
-                        <FontAwesomeIcon icon={faHotel} /> Agregar habitaciones
-                      </button>
-                    </td>
+                    <td className="py-3 text-center flex flex-col gap-2">
+
+                    {/* AGREGAR HABITACIONES */}
+                    <button
+                      onClick={() => handleAgregarHabitaciones(hotel.id)}
+                      className="bg-orange-500 text-white px-3 py-1 rounded-md hover:bg-orange-600 flex items-center justify-center gap-1"
+                    >
+                      <FontAwesomeIcon icon={faHotel} /> Agregar Habitación
+                    </button>
+
+                    {/* VER HABITACIONES */}
+                    <button
+                      onClick={() => navigate(`/Admin/Habitaciones/${hotel.id}`)}
+                      className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 flex items-center justify-center gap-1"
+                    >
+                      <FontAwesomeIcon icon={faSearch} /> Ver Habitaciones
+                    </button>
+
+                  </td>
                   </tr>
                 ))}
               </tbody>
@@ -341,7 +352,7 @@ export default function AdminPanel() {
               <thead>
                 <tr className="border-b text-gray-600">
                   <th className="py-2">Hotel</th>
-                  <th className="py-2">Cliente</th>
+                  <th className="py-2 text-center">Cliente</th>
                   <th className="py-2 text-center">DNI/Pasaporte</th>
                   <th className="py-2 text-center">Cant. Huéspedes</th>
                   <th className="py-2 text-center">Fecha Entrada</th>
@@ -353,7 +364,7 @@ export default function AdminPanel() {
                 {reservasFiltradas.map((r) => (
                   <tr key={r.id} className="border-b hover:bg-gray-50">
                     <td className="py-3 font-medium">{r.hotelNombre}</td>
-                    <td className="py-3">{r.clienteNombre}</td>
+                    <td className="py-3 font-medium">{r.clienteNombre}</td>
                     <td className="py-3 text-center">{r.clienteDni}</td>
                     <td className="py-3 text-center">
                       {r.cantidadHuespedes}

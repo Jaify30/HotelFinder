@@ -9,6 +9,8 @@ import VerHotel from "./components/VerHotel"
 import PagosPage from "./components/PagosPage"
 import MisReservas from "./components/MisReservas"
 import CrearResena from "./components/CrearResena"
+import AdminHabitaciones from "./components/AdminHabitaciones"
+import HotelDashboard from "./components/HotelDashBoard"
 
 
 
@@ -27,6 +29,8 @@ function App() {
         <Route path="/PagosPage" element={<PagosPage />}/>
         <Route path="/MisReservas" element={<MisReservas />} />
         <Route path="/CrearResena" element={<CrearResena />} />
+        <Route path="/Admin/Habitaciones/:idHotel" element={<AdminHabitaciones />} />
+        <Route path="/HotelDashBoard/:idHotel" element={<HotelDashboard/>}/>
 
       </Routes>
     </BrowserRouter>

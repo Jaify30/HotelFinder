@@ -1,0 +1,47 @@
+"filename", "language", "TypeScript", "JSON", "JSON with Comments", "PostCSS", "TypeScript JSX", "Markdown", "HTML", "JavaScript", "comment", "blank", "total"
+"d:\ProyectoDaira\HotelesClient\README.md", "Markdown", 0, 0, 0, 0, 0, 60, 0, 0, 0, 14, 74
+"d:\ProyectoDaira\HotelesClient\eslint.config.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 22, 0, 2, 24
+"d:\ProyectoDaira\HotelesClient\index.html", "HTML", 0, 0, 0, 0, 0, 0, 13, 0, 0, 1, 14
+"d:\ProyectoDaira\HotelesClient\package-lock.json", "JSON", 0, 4692, 0, 0, 0, 0, 0, 0, 0, 1, 4693
+"d:\ProyectoDaira\HotelesClient\package.json", "JSON", 0, 43, 0, 0, 0, 0, 0, 0, 0, 1, 44
+"d:\ProyectoDaira\HotelesClient\src\App.tsx", "TypeScript JSX", 0, 0, 0, 0, 30, 0, 0, 0, 0, 7, 37
+"d:\ProyectoDaira\HotelesClient\src\Hooks\EliminarHook.ts", "TypeScript", 26, 0, 0, 0, 0, 0, 0, 0, 0, 2, 28
+"d:\ProyectoDaira\HotelesClient\src\Hooks\useContador.ts", "TypeScript", 51, 0, 0, 0, 0, 0, 0, 0, 1, 10, 62
+"d:\ProyectoDaira\HotelesClient\src\Hooks\useVerPorID.ts", "TypeScript", 8, 0, 0, 0, 0, 0, 0, 0, 1, 4, 13
+"d:\ProyectoDaira\HotelesClient\src\components\AdminPanel.tsx", "TypeScript JSX", 0, 0, 0, 0, 350, 0, 0, 0, 7, 23, 380
+"d:\ProyectoDaira\HotelesClient\src\components\AgregarHabitaciones.tsx", "TypeScript JSX", 0, 0, 0, 0, 133, 0, 0, 0, 5, 16, 154
+"d:\ProyectoDaira\HotelesClient\src\components\CardEstadistica.tsx", "TypeScript JSX", 0, 0, 0, 0, 16, 0, 0, 0, 0, 1, 17
+"d:\ProyectoDaira\HotelesClient\src\components\CardHotel.tsx", "TypeScript JSX", 0, 0, 0, 0, 62, 0, 0, 0, 4, 8, 74
+"d:\ProyectoDaira\HotelesClient\src\components\Carrusel.tsx", "TypeScript JSX", 0, 0, 0, 0, 75, 0, 0, 0, 3, 11, 89
+"d:\ProyectoDaira\HotelesClient\src\components\CrearCuenta.tsx", "TypeScript JSX", 0, 0, 0, 0, 273, 0, 0, 0, 6, 32, 311
+"d:\ProyectoDaira\HotelesClient\src\components\CrearHotel.tsx", "TypeScript JSX", 0, 0, 0, 0, 290, 0, 0, 0, 36, 34, 360
+"d:\ProyectoDaira\HotelesClient\src\components\CrearResena.tsx", "TypeScript JSX", 0, 0, 0, 0, 126, 0, 0, 0, 12, 25, 163
+"d:\ProyectoDaira\HotelesClient\src\components\Header.tsx", "TypeScript JSX", 0, 0, 0, 0, 97, 0, 0, 0, 5, 21, 123
+"d:\ProyectoDaira\HotelesClient\src\components\Hoteles.tsx", "TypeScript JSX", 0, 0, 0, 0, 72, 0, 0, 0, 5, 12, 89
+"d:\ProyectoDaira\HotelesClient\src\components\HotelesPage.tsx", "TypeScript JSX", 0, 0, 0, 0, 203, 0, 0, 0, 16, 29, 248
+"d:\ProyectoDaira\HotelesClient\src\components\Index.tsx", "TypeScript JSX", 0, 0, 0, 0, 10, 0, 0, 0, 0, 2, 12
+"d:\ProyectoDaira\HotelesClient\src\components\LoginModal.tsx", "TypeScript JSX", 0, 0, 0, 0, 131, 0, 0, 0, 5, 19, 155
+"d:\ProyectoDaira\HotelesClient\src\components\MainPage.tsx", "TypeScript JSX", 0, 0, 0, 0, 10, 0, 0, 0, 0, 6, 16
+"d:\ProyectoDaira\HotelesClient\src\components\MisReservas.tsx", "TypeScript JSX", 0, 0, 0, 0, 181, 0, 0, 0, 11, 23, 215
+"d:\ProyectoDaira\HotelesClient\src\components\PagosPage.tsx", "TypeScript JSX", 0, 0, 0, 0, 277, 0, 0, 0, 10, 26, 313
+"d:\ProyectoDaira\HotelesClient\src\components\ReservaModal.tsx", "TypeScript JSX", 0, 0, 0, 0, 210, 0, 0, 0, 6, 24, 240
+"d:\ProyectoDaira\HotelesClient\src\components\SideBar.tsx", "TypeScript JSX", 0, 0, 0, 0, 34, 0, 0, 0, 0, 5, 39
+"d:\ProyectoDaira\HotelesClient\src\components\VerHotel.tsx", "TypeScript JSX", 0, 0, 0, 0, 202, 0, 0, 0, 14, 18, 234
+"d:\ProyectoDaira\HotelesClient\src\index.css", "PostCSS", 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1
+"d:\ProyectoDaira\HotelesClient\src\main.tsx", "TypeScript JSX", 0, 0, 0, 0, 9, 0, 0, 0, 0, 1, 10
+"d:\ProyectoDaira\HotelesClient\src\settings\appsettings.ts", "TypeScript", 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3
+"d:\ProyectoDaira\HotelesClient\src\types\Admin.ts", "TypeScript", 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8
+"d:\ProyectoDaira\HotelesClient\src\types\Habitaciones.ts", "TypeScript", 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10
+"d:\ProyectoDaira\HotelesClient\src\types\Hoteles.ts", "TypeScript", 11, 0, 0, 0, 0, 0, 0, 0, 0, 1, 12
+"d:\ProyectoDaira\HotelesClient\src\types\ImgHabitaciones.ts", "TypeScript", 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6
+"d:\ProyectoDaira\HotelesClient\src\types\ImgHoteles.ts", "TypeScript", 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6
+"d:\ProyectoDaira\HotelesClient\src\types\Pagos.ts", "TypeScript", 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9
+"d:\ProyectoDaira\HotelesClient\src\types\ReseniaCreate.ts", "TypeScript", 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6
+"d:\ProyectoDaira\HotelesClient\src\types\Reservas.ts", "TypeScript", 12, 0, 0, 0, 0, 0, 0, 0, 0, 1, 13
+"d:\ProyectoDaira\HotelesClient\src\types\Reseñas.ts", "TypeScript", 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10
+"d:\ProyectoDaira\HotelesClient\src\types\Usuarios.ts", "TypeScript", 13, 0, 0, 0, 0, 0, 0, 0, 0, 1, 14
+"d:\ProyectoDaira\HotelesClient\tsconfig.app.json", "JSON", 0, 24, 0, 0, 0, 0, 0, 0, 2, 3, 29
+"d:\ProyectoDaira\HotelesClient\tsconfig.json", "JSON with Comments", 0, 0, 7, 0, 0, 0, 0, 0, 0, 1, 8
+"d:\ProyectoDaira\HotelesClient\tsconfig.node.json", "JSON", 0, 22, 0, 0, 0, 0, 0, 0, 2, 3, 27
+"d:\ProyectoDaira\HotelesClient\vite.config.ts", "TypeScript", 6, 0, 0, 0, 0, 0, 0, 0, 1, 2, 9
+"Total", "-", 185, 4781, 7, 1, 2791, 60, 13, 22, 152, 390, 8402
