@@ -14,8 +14,6 @@ import HotelDashboard from "./components/HotelDashBoard"
 import SobreNosotros from "./components/SobreNosotros"
 import Footer from "./components/Footer"
 
-
-
 function App() {
 
   return (
